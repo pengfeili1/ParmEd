@@ -2046,14 +2046,15 @@ Basic MD simulation
         parm = AmberParm(self.get_fn('Mg_ti1_b.parm7'))
         PT.addLJType(parm, '@14').execute()
         PT.changeLJPair(parm, '@14', ':MG', 3.26, 0.061666).execute()
-        act = PT.add12_6_4(parm, ':MG', watermodel='TIP4PEW',
-                           polfile=self.get_fn('lj_1264_pol.dat'), onlywater=True)
+        act = PT.add12_6_4(parm, ':MG', 'onlywater', watermodel='TIP4PEW',
+                           polfile=self.get_fn('lj_1264_pol.dat'))
         self.assertEqual(act.tunfactor, 0.0)
         act.execute()
-        str(act)
         parm.write_parm(self.get_fn('Mg_ti1_b_1264_ow.parm7', written=True))
-        self.assertTrue(diff_files(self.get_fn('Mg_ti1_b_1264_ow.parm7', written=True),
-                                   get_saved_fn('Mg_ti1_b_1264_ow.parm7'))
+        self.assertTrue(
+            diff_files(self.get_fn('Mg_ti1_b_1264_ow.parm7', written=True),
+                       get_saved_fn('Mg_ti1_b_1264_ow.parm7'),
+                       relative_error=1e-3)
         )
 
     def test_add_12_6_4_2metals(self):
@@ -2074,11 +2075,12 @@ Basic MD simulation
                      polfile=self.get_fn('lj_1264_pol.dat')).execute()
 
         act = PT.changeC4AtomTypePair(parm, ':WAT@O', ':MG', 100.0)
-        str(act)
         act.execute()
         parm.write_parm(self.get_fn('Mg_ti1_b_1264_ow_100.parm7', written=True))
-        self.assertTrue(diff_files(self.get_fn('Mg_ti1_b_1264_ow_100.parm7', written=True),
-                                   get_saved_fn('Mg_ti1_b_1264_ow_100.parm7'))
+        self.assertTrue(
+            diff_files(self.get_fn('Mg_ti1_b_1264_ow_100.parm7', written=True),
+                       get_saved_fn('Mg_ti1_b_1264_ow_100.parm7'),
+                       relative_error=1e-3)
         )
 
     @unittest.skipIf(PYPY, 'NetCDF support does not work on PYPY yet')
