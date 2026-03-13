@@ -2050,6 +2050,7 @@ Basic MD simulation
                            polfile=self.get_fn('lj_1264_pol.dat'))
         self.assertEqual(act.tunfactor, 0.0)
         act.execute()
+        str(act)
         parm.write_parm(self.get_fn('Mg_ti1_b_1264_ow.parm7', written=True))
         self.assertTrue(
             diff_files(self.get_fn('Mg_ti1_b_1264_ow.parm7', written=True),
@@ -2076,6 +2077,7 @@ Basic MD simulation
 
         act = PT.changeC4AtomTypePair(parm, ':WAT@O', ':MG', 100.0)
         act.execute()
+        str(act)
         parm.write_parm(self.get_fn('Mg_ti1_b_1264_ow_100.parm7', written=True))
         self.assertTrue(
             diff_files(self.get_fn('Mg_ti1_b_1264_ow_100.parm7', written=True),
